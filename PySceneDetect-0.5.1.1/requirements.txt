@@ -1,9 +1,0 @@
-#
-# PySceneDetect Python Requirements
-#
-opencv-python
-numpy
-click
-tqdm
-pytest
-
