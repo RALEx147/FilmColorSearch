@@ -1,0 +1,17 @@
+#
+# PySceneDetect Python Requirements
+#
+opencv-python
+numpy
+click
+tqdm
+pytest
+
+#
+# ImgKMean Python Requirements
+#
+opencv-python  #cv2
+sklearn
+matplotlib
+Pillow         #PIL
+pickle         #or dill
