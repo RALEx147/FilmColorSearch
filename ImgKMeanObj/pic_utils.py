@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
-from .stats.Color_info import Color_info
+from .stats.ColorInfo import Color_info
 
 
 class pic_utils:
