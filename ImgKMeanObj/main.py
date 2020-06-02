@@ -12,6 +12,7 @@ def test_compare():
     # out_name_1 = filename[:-4] + "_out.jpg"
     # picU.kmeans_cluster(filename, 5, True, out_name_1)
     i1 = Image.open(filename)
+    # Create a smaller size of for a better test speed
     i1 = i1.resize((100, 100), PIL.Image.ANTIALIAS)
     filename = filename[:4] + "_reshape.jpg"
     i1.save(filename)
@@ -24,7 +25,7 @@ def test_compare():
     img.append(KeyFrame(colors_info))
 
     # create the pickle obj
-    pfile = open('eximg', 'ab')
+    pfile = open('testing_pickle', 'ab')
 
     filename = "testfile/Test4.jpg"
     # out_name_1 = filename[:-4] + "_out.jpg"
@@ -73,12 +74,12 @@ def cal_diff(ctr_img, cmp_img):
     :return: weighted_diff: a float weighted number based on the difference between two image
     """
     weighted_diff = 0
-    for i in range(len(cmp_img.color_info)):
+    for i in range(len(cmp_img.color_dist)):
         # calculate the difference of the color distribution
-        RGB_diff = np.array(cmp_img.color_info[i].RGB) - np.array(ctr_img.color_info[i].RGB)
+        RGB_diff = np.array(cmp_img.color_dist[i].RGB) - np.array(ctr_img.color_dist[i].RGB)
         diff = math.sqrt(np.sum(RGB_diff ** 2))
-        print(diff, cmp_img.color_info[i].percent)
-        weighted_diff += diff * cmp_img.color_info[i].percent
+        print(diff, cmp_img.color_dist[i].percent)
+        weighted_diff += diff * cmp_img.color_dist[i].percent
     return weighted_diff
 
 
@@ -104,7 +105,7 @@ def search(filename):
 
 if __name__ == "__main__":
     test_compare()  # initialize the database
-    pfile = open('eximg', 'rb')
+    pfile = open('testing_pickle', 'rb')
     img_data = pickle.load(pfile)
     img = img_data[0]
     img1 = img_data[1]

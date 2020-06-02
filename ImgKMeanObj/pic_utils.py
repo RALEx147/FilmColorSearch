@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
-from .stats.ColorInfo import Color_info
+from .stats.ColorInfo import ColorInfo
 
 
 class pic_utils:
@@ -69,7 +69,7 @@ class pic_utils:
                           color.astype("uint8").tolist(), -1)
             startX = endX
             # store each individual data info the color info
-            temp = Color_info(percent * 100, color)
+            temp = ColorInfo(percent * 100, color)
             colors_info.append(temp)
         # return the bar chart
         return bar, colors_info
