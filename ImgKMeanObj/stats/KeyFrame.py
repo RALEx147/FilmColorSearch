@@ -3,7 +3,7 @@ The class contains the data of img k-means cluster
 '''
 
 
-class img_stats:
+class KeyFrame:
 
     def __init__(self, color_info):
         self.film_name = None

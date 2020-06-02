@@ -5,7 +5,7 @@ And RGB data of the color
 '''
 
 
-class Color_info:
+class ColorInfo:
 
     def __init__(self, percent, RGB):
         self.percent = percent

@@ -21,7 +21,7 @@ def test_compare():
 
     # grab the stats data of the image and create the image obj local
     img = []
-    img.append(img_stats(colors_info))
+    img.append(KeyFrame(colors_info))
 
     # create the pickle obj
     pfile = open('eximg', 'ab')
@@ -38,7 +38,7 @@ def test_compare():
     # picU.img_color_compare("testfile/Test95_out.jpg","testfile/Test99_out.jpg")
 
     # grab the stats data of the image and create the image obj local
-    img.append(img_stats(colors_info))
+    img.append(KeyFrame(colors_info))
     pickle.dump(img, pfile)
     pfile.close()
 
