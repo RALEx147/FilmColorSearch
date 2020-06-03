@@ -53,7 +53,7 @@ import click
 import scenedetect
 from scenedetect.cli.context import CliContext
 from scenedetect.frame_timecode import FrameTimecode
-from scenedetect.video_manager import VideoManager
+from src.scenedetect.video_manager import VideoManager
 
 from scenedetect.video_splitter import is_mkvmerge_available
 from scenedetect.video_splitter import is_ffmpeg_available

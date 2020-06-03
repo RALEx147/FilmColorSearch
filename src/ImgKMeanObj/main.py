@@ -1,7 +1,7 @@
-from ImgKMeanObj.pic_utils import *
+from .pic_utils import *
 import PIL
 import pickle
-from ImgKMeanObj.stats.KeyFrame import *
+from .stats.KeyFrame import *
 import math
 import numpy as np
 

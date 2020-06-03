@@ -55,11 +55,11 @@ from scenedetect.stats_manager import StatsManager
 from scenedetect.stats_manager import StatsFileCorrupt
 from scenedetect.stats_manager import StatsFileFramerateMismatch
 
-from scenedetect.video_manager import VideoManager
-from scenedetect.video_manager import VideoOpenFailure
-from scenedetect.video_manager import VideoFramerateUnavailable
-from scenedetect.video_manager import VideoParameterMismatch
-from scenedetect.video_manager import InvalidDownscaleFactor
+from src.scenedetect.video_manager import VideoManager
+from src.scenedetect.video_manager import VideoOpenFailure
+from src.scenedetect.video_manager import VideoFramerateUnavailable
+from src.scenedetect.video_manager import VideoParameterMismatch
+from src.scenedetect.video_manager import InvalidDownscaleFactor
 
 from scenedetect.video_splitter import is_mkvmerge_available
 from scenedetect.video_splitter import is_ffmpeg_available

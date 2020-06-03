@@ -39,7 +39,6 @@ This file also contains the PySceneDetect version string (displayed when calling
 # Standard Library Imports
 
 from __future__ import print_function
-import sys
 import os
 import time
 
@@ -49,12 +48,8 @@ import time
 # Commonly used classes for easier use directly from the scenedetect namespace (e.g.
 # scenedetect.SceneManager instead of scenedetect.scene_manager.SceneManager).
 
-from scenedetect.scene_manager import SceneManager
 from scenedetect.frame_timecode import FrameTimecode
-from scenedetect.video_manager import VideoManager
-from scenedetect.detectors import ThresholdDetector, ContentDetector
-from scenedetect.__main__ import main
-
+from src.scenedetect.video_manager import VideoManager
 
 # Used for module identification and when printing version & about info.
 # (scenedetect version and scenedetect about)
