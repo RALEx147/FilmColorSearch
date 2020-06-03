@@ -1,17 +1,31 @@
 import cv2
 import numpy as np
 
-def crop():
-    img = cv2.imread('maxresdefault.png')
-    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    _,thresh = cv2.threshold(gray,1,255,cv2.THRESH_BINARY)
-    contours,hierarchy = cv2.findContours(thresh,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-    cnt = contours[0]
-    x,y,w,h = cv2.boundingRect(cnt)
-    crop = img[y:y+h,x:x+w]
-    cv2.imwrite('sofwinres.png',crop)
+def crop(input):
+    og = cv2.imread(input)
+    img = cv2.imread(input,0)
+    flag = True
+    count = 0
+    rows,cols = img.shape
+    for i in range(cols):
+        pixel = img[i, 900]
+        if pixel == 0:
+            count+=1
+        else:
+            break
+    end = rows - count
+    if not count > end:
+        crop = og[count:end,0:img.shape[1]]
+        cv2.imwrite(input[:-4] + "_crop.jpg",crop)
+    else:
+        print(input, "failed")
 
 def main():
-    crop()
+    for i in range(1,125):
+        file_name = "testfile/Test"+str(i)+".jpg"
+
+        out = crop(file_name)
+
+
 
 main()
