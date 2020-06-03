@@ -21,10 +21,9 @@ def crop(input):
         print(input, "failed")
 
 def main():
-    for i in range(1,125):
-        file_name = "testfile/Test"+str(i)+".jpg"
+	file_name = "Test.jpg"
 
-        out = crop(file_name)
+	crop(file_name)
 
 
 
