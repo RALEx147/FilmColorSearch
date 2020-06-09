@@ -1,4 +1,9 @@
-#File to initiate autmoation of scene detection. Uses hardcoded paramaters. Saves out to images and python objects.
+"""Scene Detect Script
+
+File to initiate automation of scene detection. Uses hardcoded parameters.
+Saves out to images and python objects.
+
+"""
 
 import os
 import math
@@ -15,6 +20,12 @@ from scenedetect.frame_timecode import FrameTimecode
 from scenedetect.platform import get_and_create_path
 
 def find_scenes(video_path, generate_images=False):
+    """
+    TODO-Documentation
+    :param video_path:
+    :param generate_images:
+    :return:
+    """
     video_manager = VideoManager([video_path])
     stats_manager = StatsManager()
     scene_manager = SceneManager(stats_manager)

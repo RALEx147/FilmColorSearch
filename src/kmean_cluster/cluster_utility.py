@@ -2,18 +2,32 @@
 To cluster the image through K-mean using the OpenCV package
 url = "https://www.pyimagesearch.com/2014/05/26/opencv-python-k-means-color-clustering/"
 '''
+import cv2
+import matplotlib.pyplot as plt
 # import the necessary packages
 import numpy as np
-from sklearn.cluster import KMeans
-import matplotlib.pyplot as plt
-import cv2
 from PIL import Image
-from .stats.ColorInfo import ColorInfo
+from sklearn.cluster import KMeans
+
+from .stats.color_info import ColorInfo
 
 
-class pic_utils:
+class ClusterUtility:
+    """
+    This class provides several methods used in k-means cluster
+    """
 
+    @staticmethod
     def kmeans_cluster(img, clr_num, save=False, save_name="out.jpg"):
+        """
+        This method transform a input picture to a plot of it k-means cluster result.
+        The color data including 5 colors and their the percentage are recorded in the color_info object
+        :param img: input image
+        :param clr_num: the number of color remaining after k-means cluster
+        :param save: if save the histogram or discard
+        :param save_name: the name of output file.
+        :return: it will return the color_info object recorded color data.
+        """
         # load the image and convert it from BGR to RGB so that
         # we can dispaly it with matplotlib
         image = cv2.imread(img)
@@ -29,22 +43,26 @@ class pic_utils:
         clt.fit(image)
         # build a histogram of clusters and then create a figure
         # representing the number of pixels labeled to each color
-        hist = pic_utils.centroid_histogram(clt)
-        bar, colors_info = pic_utils.plot_colors(hist, clt.cluster_centers_)
+        hist = ClusterUtility.__centroid_histogram(clt)
+        bar, colors_info = ClusterUtility.__plot_colors(hist, clt.cluster_centers_)
         # show our color bart
         res = plt.figure()
         plt.axis("off")
         plt.imshow(bar)
-        # plt.show()
         # save the file
         if (save):
             res.savefig(save_name)
         plt.close('all')
         return colors_info
 
-    def centroid_histogram(clt):
-        # grab the number of different clusters and create a histogram
-        # based on the number of pixels assigned to each cluster
+    def __centroid_histogram(self,clt):
+        """
+        This method grabs the number of different clusters and create a histogram
+        based on the number of pixels assigned to each cluster
+        :param clt: the KMeans object to plot
+        :return: a histogram
+        """
+
         num_labels = np.arange(0, len(np.unique(clt.labels_)) + 1)
         (hist, _) = np.histogram(clt.labels_, bins=num_labels)
         # normalize the histogram, such that it sums to one
@@ -53,9 +71,14 @@ class pic_utils:
         # return the histogram
         return hist
 
-    def plot_colors(hist, centroids):
-        # initialize the bar chart representing the relative frequency
-        # of each of the colors
+    def __plot_colors(self,hist, centroids):
+        """
+        This method initializes the bar chart representing the relative frequency of each of the colors
+        :param hist: the histogram to plot
+        :param centroids: the RGB color to plot
+        :return: a bar chart and a color_info object of the plot
+        """
+
         bar = np.zeros((50, 300, 3), dtype="uint8")
         startX = 0
         # collection for the colors and their dominance percentage
@@ -74,6 +97,7 @@ class pic_utils:
         # return the bar chart
         return bar, colors_info
 
+    @staticmethod
     def img_color_compare(i1_dic, i2_dic):
         i1 = Image.open(i1_dic)
         i2 = Image.open(i2_dic)

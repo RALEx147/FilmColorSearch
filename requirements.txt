@@ -9,7 +9,7 @@ tqdm
 pytest
 
 #
-# ImgKMean Python Requirements
+# kmean_cluster Python Requirements
 #
 opencv-python  #cv2
 sklearn

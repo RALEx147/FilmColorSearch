@@ -1,13 +1,13 @@
-from .pic_utils import *
+from .cluster_utility import *
 import PIL
 import pickle
-from .stats.KeyFrame import *
+from .stats.key_frame import *
 import math
 import numpy as np
 
 
 def test_compare():
-    picU = pic_utils
+    picU = ClusterUtility
     filename = "testfile/Test2.jpg"
     # out_name_1 = filename[:-4] + "_out.jpg"
     # picU.kmeans_cluster(filename, 5, True, out_name_1)
@@ -45,7 +45,7 @@ def test_compare():
 
 
 def reshape_data_setup():
-    picU = pic_utils
+    picU = ClusterUtility
     a = 1
     b = 125
     for i in range(a, b):
@@ -84,7 +84,7 @@ def cal_diff(ctr_img, cmp_img):
 
 
 def search(filename):
-    picU = pic_utils
+    picU = ClusterUtility
     picU.kmeans_cluster(filename, 10, True, "cache/temp.jpg")
     a = 1
     b = 125
