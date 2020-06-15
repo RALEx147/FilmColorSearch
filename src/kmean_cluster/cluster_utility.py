@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image
 from sklearn.cluster import KMeans
 
-from .stats.color_info import ColorInfo
+from stats.color_info import ColorInfo
 
 
 class ClusterUtility:
@@ -55,7 +55,7 @@ class ClusterUtility:
         plt.close('all')
         return colors_info
 
-    def __centroid_histogram(self,clt):
+    def __centroid_histogram(clt):
         """
         This method grabs the number of different clusters and create a histogram
         based on the number of pixels assigned to each cluster
@@ -71,7 +71,7 @@ class ClusterUtility:
         # return the histogram
         return hist
 
-    def __plot_colors(self,hist, centroids):
+    def __plot_colors(hist, centroids):
         """
         This method initializes the bar chart representing the relative frequency of each of the colors
         :param hist: the histogram to plot

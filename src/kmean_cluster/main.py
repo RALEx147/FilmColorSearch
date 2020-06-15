@@ -1,7 +1,7 @@
-from .cluster_utility import *
+from cluster_utility import *
 import PIL
 import pickle
-from .stats.key_frame import *
+from stats.key_frame import *
 import math
 import numpy as np
 
@@ -25,7 +25,7 @@ def test_compare():
     img.append(KeyFrame(colors_info))
 
     # create the pickle obj
-    pfile = open('testing_pickle', 'ab')
+    pfile = open('testing_pickle.pickle', 'ab')
 
     filename = "testfile/Test4.jpg"
     # out_name_1 = filename[:-4] + "_out.jpg"
@@ -105,7 +105,7 @@ def search(filename):
 
 if __name__ == "__main__":
     test_compare()  # initialize the database
-    pfile = open('testing_pickle', 'rb')
+    pfile = open('testing_pickle.pickle', 'rb')
     img_data = pickle.load(pfile)
     img = img_data[0]
     img1 = img_data[1]
