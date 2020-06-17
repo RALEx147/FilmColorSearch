@@ -11,7 +11,7 @@ def test_compare():
     filename = "testfile/Test2.jpg"
     # out_name_1 = filename[:-4] + "_out.jpg"
     # picU.kmeans_cluster(filename, 5, True, out_name_1)
-    i1 = Image.open(filename)
+    i1 = PIL.Image.open(filename)
     # Create a smaller size of for a better test speed
     i1 = i1.resize((100, 100), PIL.Image.ANTIALIAS)
     filename = filename[:4] + "_reshape.jpg"
