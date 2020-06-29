@@ -30,8 +30,9 @@ def main():
     Test method
     :return:
     '''
-	file_name = "Test5.jpg"
-	crop(file_name)
+
+    file_name = "Test5.jpg"
+    crop(file_name)
 
 
 

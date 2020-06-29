@@ -15,4 +15,3 @@ opencv-python  #cv2
 sklearn
 matplotlib
 Pillow         #PIL
-pickle         #or dill
