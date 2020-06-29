@@ -2,8 +2,7 @@ from cluster_utility import *
 import PIL
 import pickle
 from stats.key_frame import *
-import math
-import numpy as np
+from color_match import cal_diff
 
 
 def test_compare():

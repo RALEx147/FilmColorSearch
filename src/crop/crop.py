@@ -1,15 +1,14 @@
 import cv2
-import numpy as np
 
-def crop(input):
+def crop(input_img, output_img = None):
     '''
-    This method is used for crop and exclude the frame that a film may contain
-    :param input: the frame to crop
-    :return: a frame without black
+    This method is used for crop and exclude masked film images
+    :param input_img: the image to crop
+    :param output_img: the file_name for output image, default value is the name of input image + "_out.jpg"
+    :return: a image without black mask
     '''
-    og = cv2.imread(input)
-    img = cv2.imread(input,0)
-    flag = True
+    og = cv2.imread(input_img)
+    img = cv2.imread(input_img, 0)
     count = 0
     rows,cols = img.shape
     for i in range(cols):
@@ -21,19 +20,9 @@ def crop(input):
     end = rows - count
     if not count > end:
         crop = og[count:end,0:img.shape[1]]
-        cv2.imwrite(input[:-4] + "_crop.jpg",crop)
+        if output_img == None:
+            output_img = input_img[:-4] + "_crop.jpg"
+        cv2.imwrite(output_img, crop)
     else:
-        print(input, "failed")
+        print(input_img, "failed")
 
-def main():
-    '''
-    Test method
-    :return:
-    '''
-
-    file_name = "Test5.jpg"
-    crop(file_name)
-
-
-
-main()

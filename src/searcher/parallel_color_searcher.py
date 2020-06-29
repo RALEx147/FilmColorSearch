@@ -1,12 +1,8 @@
-__author__ = "Jacky Lin"
-__date__ = "June 17, 2020$"
-
-import numpy as np
 from multiprocessing import Pool
 from ..kmean_cluster.color_match import *
-from ..kmean_cluster.stats import *
+
 class ColorSearcher:
-    def __init__(self, ctl_frame, sorting):
+    def __init__(self, ctl_frame, sorting=True):
         # the controlling frame
         self.ctl_frame = ctl_frame
         # store boolean telling us if we should sort the results
@@ -24,7 +20,7 @@ class ColorSearcher:
         results = {}
 
         # loop over the index
-        results[other_frame]=cal_diff(self.ctl_frame.color_dist,other_frame.color_dist)
+        results[other_frame] = cal_diff(self.ctl_frame.color_dist, other_frame.color_dist)
 
         # return the results
         return results
@@ -51,13 +47,13 @@ class ColorSearcher:
         results = p.map(self.search, other_frames)
         # if the above line causes an error, try
         # results = p.map(self.search, (queryFeatures,))
-#TODO-modify the following code
+        # TODO-modify the following code
         # parallelized sort
         # sort the results, so that the more relevant results
         # (smaller numbers) are at the front of the list
         if self.sorting == True:
             # map the sorting function across the processes of the pool
-            results = p.map(sorted,[(v, k) for (k, v) in results.items()])
+            results = p.map(sorted, [(v, k) for (k, v) in results.items()])
             # if the above line causes an error, try
             # results = p.map(sorted,([(v,k) for (k,v) in results.items()],))
 
