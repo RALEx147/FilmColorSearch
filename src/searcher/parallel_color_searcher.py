@@ -31,6 +31,12 @@ class ColorSearcher:
 
     # CALL THIS INSTEAD OF SEARCH
     def parallelSearch(self, other_frames, n=8):
+        '''
+        This method use the multi-thread search method, initialized at 8 threads.
+        :param other_frames: A list of frames to search, this should be our frame database
+        :param n: the number of threads
+        :return: a sorted list of relevant frames, according to its scores
+        '''
 
         # TODO: try different values of n above and compare run time, optimize n.
         # note: this should be done on the server machine, as the optimal n value

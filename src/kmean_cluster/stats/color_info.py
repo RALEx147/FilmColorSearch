@@ -8,7 +8,9 @@ And RGB data of the color
 class ColorInfo:
 
     def __init__(self, percent, RGB):
+        # percentage of certain color
         self.percent = percent
+        # the color RGB value as a tuple
         self.RGB = RGB
 
     def __str__(self):

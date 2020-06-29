@@ -7,17 +7,21 @@ import numpy as np
 
 
 def test_compare():
+    # Initialize ClusterUtility
     picU = ClusterUtility
+
+    # default filename
     filename = "testfile/Test2.jpg"
-    # out_name_1 = filename[:-4] + "_out.jpg"
-    # picU.kmeans_cluster(filename, 5, True, out_name_1)
+
+    # If you want to create a smaller size of for a better test speed
+    # Uncomment the following
     i1 = PIL.Image.open(filename)
-    # Create a smaller size of for a better test speed
     i1 = i1.resize((100, 100), PIL.Image.ANTIALIAS)
     filename = filename[:4] + "_reshape.jpg"
     i1.save(filename)
     out_name_2 = filename[:-4] + "_out.jpg"
-    colors_info = picU.kmeans_cluster(filename, 5, False, out_name_2)
+
+    colors_info = picU.kmeans_cluster(filename, 5, False)
     # picU.img_color_compare("testfile/Test95_out.jpg","testfile/Test99_out.jpg")
 
     # grab the stats data of the image and create the image obj local
@@ -44,6 +48,34 @@ def test_compare():
     pfile.close()
 
 
+def pickle_img_data_sample():
+    '''
+    This method is a sample method for create a database of pickled object for all frames of movie.
+    In this sample, we take one picture as an example. For the future modification, we need to change the filename
+    to the directory where we have our film frames, and loop the kmeans_cluster function. It is likely we can optimize
+    the speed with the multi-thread. This method will run for each film in our database and should run on server.
+    :return: None
+    '''
+
+    # Initialize ClusterUtility
+    picU = ClusterUtility
+
+    # default filename
+    filename = "testfile/Test2.jpg"
+
+    # Calculate the color info
+    colors_info = picU.kmeans_cluster(filename, 5, False)
+    # picU.img_color_compare("testfile/Test95_out.jpg","testfile/Test99_out.jpg")
+
+    # grab the stats data of the image and create the image obj local
+    img = []
+    img.append(KeyFrame(colors_info))
+
+    # create the pickle obj
+    pfile = open('testing_pickle.pickle', 'ab')
+    pickle.dump(img, pfile)
+    pfile.close()
+
 def reshape_data_setup():
     picU = ClusterUtility
     a = 1
@@ -60,30 +92,12 @@ def reshape_data_setup():
         out2 = filename[:-4] + "_out.jpg"
         picU.kmeans_cluster(filename, 10, True, out2)
 
-
-def cal_diff(ctr_img, cmp_img):
-    """
-    The function to compare the difference between two images from the most dominant color
-    The calculation is based on the Delta CIE76.
-    The formula for individual color difference is diff = sqrt((R1-R2)^2+(G1-G2)^2+(B1-B2)^2)
-    We add the percentage contains in the certain color to generate the weighted difference.
-    Given that the color information for each image is on descending order based on the dominance
-    of the color, we calculate the most significant color first.
-    :param ctr_img: The control group of the image, it is usually the image user upload
-    :param cmp_img: The image to compare with the control group.
-    :return: weighted_diff: a float weighted number based on the difference between two image
-    """
-    weighted_diff = 0
-    for i in range(len(cmp_img.color_dist)):
-        # calculate the difference of the color distribution
-        RGB_diff = np.array(cmp_img.color_dist[i].RGB) - np.array(ctr_img.color_dist[i].RGB)
-        diff = math.sqrt(np.sum(RGB_diff ** 2))
-        print(diff, cmp_img.color_dist[i].percent)
-        weighted_diff += diff * cmp_img.color_dist[i].percent
-    return weighted_diff
-
-
 def search(filename):
+    '''
+    This method is a TEST method, should be replaced by the parallel_color_searcher
+    :param filename:
+    :return:
+    '''
     picU = ClusterUtility
     picU.kmeans_cluster(filename, 10, True, "cache/temp.jpg")
     a = 1

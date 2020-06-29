@@ -2,6 +2,11 @@ import cv2
 import numpy as np
 
 def crop(input):
+    '''
+    This method is used for crop and exclude the frame that a film may contain
+    :param input: the frame to crop
+    :return: a frame without black
+    '''
     og = cv2.imread(input)
     img = cv2.imread(input,0)
     flag = True
@@ -21,8 +26,11 @@ def crop(input):
         print(input, "failed")
 
 def main():
+    '''
+    Test method
+    :return:
+    '''
 	file_name = "Test5.jpg"
-
 	crop(file_name)
 
 

@@ -21,10 +21,11 @@ from scenedetect.platform import get_and_create_path
 
 def find_scenes(video_path, generate_images=False):
     """
-    TODO-Documentation
-    :param video_path:
-    :param generate_images:
-    :return:
+    This method slicing a video to a list of scenes, each scene will have a similar color distributions.
+    This function allows to generate images for each scene.
+    :param video_path: The path to the video for finding scenes
+    :param generate_images: whether to generate images or not
+    :return: a list of scenes
     """
     video_manager = VideoManager([video_path])
     stats_manager = StatsManager()
@@ -46,8 +47,6 @@ def find_scenes(video_path, generate_images=False):
         video_manager.start()
         scene_manager.detect_scenes(frame_source=video_manager)
         scene_list = scene_manager.get_scene_list(base_timecode)
-
-
 
         if generate_images:
             print("Starting to generate images from scenelist")
