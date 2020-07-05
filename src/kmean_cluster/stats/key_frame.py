@@ -16,7 +16,7 @@ class KeyFrame:
         self.color_dist = sorted(color_info, reverse=True)
 
     def __str__(self):
-        return "Film Name: {}\n Time Periods: {} to {}\n Color Distribution:\n {}".\
+        return "Film Name: {}\n Time Periods: {} to {}\n Color Distribution:\n {}\n".\
             format(self.film_name,self.begin_time,self.end_time,self.color_dist)
 
     def print_info(self):

@@ -46,12 +46,12 @@ class TestClusterUtility(TestCase):
 
         # create the pickle obj
         # if the pickled file exists, remove the file and create a new
-        if os.path.exists('pickledFrames'):
-            os.remove('pickledFrames')
-        pfile = open('pickledFrames', 'ab')
+        if os.path.exists('../test_search/pickledFrames'):
+            os.remove('../test_search/pickledFrames')
+        pfile = open('../test_search/pickledFrames', 'ab')
         dill.dump(img, pfile)
         pfile.close()
-        pfile = open('pickledFrames', 'rb')
+        pfile = open('../test_search/pickledFrames', 'rb')
         img_data = dill.load(pfile)
         t = TestCase()
         t.assertEqual(TestLen, len(img_data))
@@ -65,7 +65,7 @@ class TestClusterUtility(TestCase):
         start_time = time.time()
         # define a nested function for multiprocessing
         def cluster_f(file):
-            colors_info = cluster.kmeans_cluster(file, 5, False)
+            colors_info = cluster.kmeans_cluster(file, 5)
             return KeyFrame(colors_info)
 
         # get the directory of all files
@@ -83,12 +83,12 @@ class TestClusterUtility(TestCase):
         p.join()
         # create the pickle obj
         # if the pickled file exists, remove the file and create a new
-        if os.path.exists('pickledFrames'):
-            os.remove('pickledFrames')
-        pfile = open('pickledFrames', 'ab')
+        if os.path.exists('../test_search/pickledFrames'):
+            os.remove('../test_search/pickledFrames')
+        pfile = open('../test_search/pickledFrames', 'ab')
         dill.dump(img, pfile)
         pfile.close()
-        pfile = open('pickledFrames', 'rb')
+        pfile = open('../test_search/pickledFrames', 'rb')
         img_data = dill.load(pfile)
         testCase = TestCase()
         testCase.assertEqual(TestLen, len(img_data))

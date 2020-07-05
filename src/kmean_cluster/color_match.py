@@ -16,14 +16,12 @@ def cal_diff(ctr_img, cmp_img):
     :return: weighted_diff: a float weighted number based on the difference between two image
     """
     weighted_diff = 0
-    for i in range(len(cmp_img.color_info)):
+    for i in range(len(cmp_img.color_dist)):
         # calculate the difference of the color distribution
-        RGB_diff = np.array(cmp_img.color_info[i].RGB) - np.array(ctr_img.color_info[i].RGB)
+        RGB_diff = np.array(cmp_img.color_dist[i].RGB) - np.array(ctr_img.color_dist[i].RGB)
         diff = math.sqrt(np.sum(RGB_diff ** 2))
-        print(diff, cmp_img.color_info[i].percent)
-        weighted_diff += diff * cmp_img.color_info[i].percent
+        weighted_diff += diff * cmp_img.color_dist[i].percent
     return weighted_diff
-
 
 def cal_diff_treshold(ctr_img, cmp_img, threshold=100):
     """

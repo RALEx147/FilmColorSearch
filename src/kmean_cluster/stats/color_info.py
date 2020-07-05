@@ -17,6 +17,10 @@ class ColorInfo:
         return "Color [{}, {}, {}] of {:.5f}". \
             format(self.RGB[0], self.RGB[1], self.RGB[2], self.percent)
 
+    def __repr__(self):
+        return "Color [{}, {}, {}] of {:.5f}". \
+            format(self.RGB[0], self.RGB[1], self.RGB[2], self.percent)
+
     def __eq__(self, other):
         return self.percent == other.percent
 

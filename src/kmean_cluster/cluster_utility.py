@@ -3,7 +3,6 @@ To cluster the image through K-mean using the OpenCV package
 url = "https://www.pyimagesearch.com/2014/05/26/opencv-python-k-means-color-clustering/"
 '''
 import cv2
-import matplotlib.pyplot as plt
 # import the necessary packages
 import numpy as np
 from PIL import Image
@@ -19,7 +18,7 @@ class ClusterUtility:
     """
 
     @staticmethod
-    def kmeans_cluster(img, clr_num, save=False, save_name="out.jpg"):
+    def kmeans_cluster(img, clr_num):
         """
         This method transform a input picture to a plot of it k-means cluster result.
         The color data including 5 colors and their the percentage are recorded in the color_info object
@@ -33,10 +32,6 @@ class ClusterUtility:
         # we can dispaly it with matplotlib
         image = cv2.imread(img)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        # show our image
-        plt.figure()
-        # plt.axis("off")
-        plt.imshow(image)
 
         # reshape the image to be a list of pixels
         image = image.reshape((image.shape[0] * image.shape[1], 3))
@@ -46,14 +41,6 @@ class ClusterUtility:
         # representing the number of pixels labeled to each color
         hist = ClusterUtility.__centroid_histogram(clt)
         bar, colors_info = ClusterUtility.__plot_colors(hist, clt.cluster_centers_)
-        # show our color bart
-        res = plt.figure()
-        plt.axis("off")
-        plt.imshow(bar)
-        # save the file
-        if (save):
-            res.savefig(save_name)
-        plt.close('all')
         return colors_info
 
     def __centroid_histogram(clt):

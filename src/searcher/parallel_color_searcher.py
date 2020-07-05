@@ -1,5 +1,6 @@
 from multiprocessing import Pool
-from ..kmean_cluster.color_match import *
+from src.kmean_cluster.color_match import *
+
 
 class ColorSearcher:
     def __init__(self, ctl_frame, sorting=True):
@@ -12,16 +13,13 @@ class ColorSearcher:
     def search(self, other_frame):
         '''
         This method calculated the color difference of the controlling frame with a series of given other frames
+        :param results: the dictionary of results
         :param other_frame: a series of frames to compare
         :return: a series of score.
         '''
 
-        # initialize the dictionary of results
-        results = {}
-
         # loop over the index
-        results[other_frame] = cal_diff(self.ctl_frame.color_dist, other_frame.color_dist)
-
+        results = (other_frame, cal_diff(self.ctl_frame, other_frame))
         # return the results
         return results
 
@@ -42,20 +40,13 @@ class ColorSearcher:
 
         # create a pool of n processes to parallelize the search and sort across
         # (n=8, to test. try different n values and compare runtime)
-        p = Pool(n);
+        p = Pool(n)
         # map the search function across the queryFeatures in parallel
         results = p.map(self.search, other_frames)
-        # if the above line causes an error, try
-        # results = p.map(self.search, (queryFeatures,))
-        # TODO-modify the following code
-        # parallelized sort
         # sort the results, so that the more relevant results
         # (smaller numbers) are at the front of the list
         if self.sorting == True:
             # map the sorting function across the processes of the pool
-            results = p.map(sorted, [(v, k) for (k, v) in results.items()])
-            # if the above line causes an error, try
-            # results = p.map(sorted,([(v,k) for (k,v) in results.items()],))
-
+            results.sort(key=lambda tup: tup[1])
         # return the results
         return results
