@@ -3,6 +3,7 @@ import os
 from src.kmean_cluster.cluster_utility import ClusterUtility
 import dill
 from src.kmean_cluster.stats.key_frame import KeyFrame
+import pathos.multiprocessing as mp
 class TestClusterUtility(TestCase):
 
 
@@ -46,8 +47,34 @@ class TestClusterUtility(TestCase):
         if os.path.exists('pickledFrames.pickle'):
             os.remove('pickledFrames.pickle')
         pfile = open('pickledFrames.pickle', 'ab')
-        pickle.dump(img, pfile)
+        dill.dump(img, pfile)
         pfile.close()
         pfile = open('pickledFrames.pickle', 'rb')
-        img_data = pickle.load(pfile)
+        img_data = dill.load(pfile)
         TestCase.assertEqual(TestLen,len(img_data))
+
+    def test_multiprocess_cluster(self):
+        '''
+        Using multiprocess, test k-means cluster and pickled method into KeyFrame objects and load the pickle data from file.
+        :return: None
+        '''
+        listOfFiles = self.getListOfFiles('./testfile')
+        cluster = ClusterUtility
+        TestLen = 10
+        img = []
+        p = mp.Pool(2)
+
+        for i in range(TestLen):
+            colors_info = cluster.kmeans_cluster(listOfFiles[i], 5, False)
+            img.append(KeyFrame(colors_info))
+
+        # create the pickle obj
+        # if the pickled file exists, remove the file and create a new
+        if os.path.exists('pickledFrames.pickle'):
+            os.remove('pickledFrames.pickle')
+        pfile = open('pickledFrames.pickle', 'ab')
+        dill.dump(img, pfile)
+        pfile.close()
+        pfile = open('pickledFrames.pickle', 'rb')
+        img_data = dill.load(pfile)
+        TestCase.assertEqual(TestLen, len(img_data))

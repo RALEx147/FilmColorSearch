@@ -16,3 +16,4 @@ sklearn
 matplotlib
 Pillow         #PIL
 dill
+pathos
