@@ -7,9 +7,10 @@ import matplotlib.pyplot as plt
 # import the necessary packages
 import numpy as np
 from PIL import Image
+#from h2o4gpu.solvers import KMeans # may be a better solution for cluster
 from sklearn.cluster import KMeans
 
-from stats.color_info import ColorInfo
+from src.kmean_cluster.stats.color_info import ColorInfo
 
 
 class ClusterUtility:

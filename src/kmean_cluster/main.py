@@ -1,8 +1,8 @@
-from cluster_utility import *
-import PIL
+from src.kmean_cluster.cluster_utility import ClusterUtility
+from PIL import Image
 import pickle
-from stats.key_frame import *
-from color_match import cal_diff
+from src.kmean_cluster.stats.key_frame import *
+from src.kmean_cluster.color_match import cal_diff
 
 
 def test_compare():
@@ -10,12 +10,12 @@ def test_compare():
     picU = ClusterUtility
 
     # default filename
-    filename = "testfile/Test2.jpg"
+    filename = "../../test/test_cluster_utility/testfile/Test2.jpg"
 
     # If you want to create a smaller size of for a better test speed
     # Uncomment the following
-    i1 = PIL.Image.open(filename)
-    i1 = i1.resize((100, 100), PIL.Image.ANTIALIAS)
+    i1 = Image.open(filename)
+    i1 = i1.resize((100, 100), Image.ANTIALIAS)
     filename = filename[:4] + "_reshape.jpg"
     i1.save(filename)
     out_name_2 = filename[:-4] + "_out.jpg"
@@ -30,11 +30,11 @@ def test_compare():
     # create the pickle obj
     pfile = open('testing_pickle.pickle', 'ab')
 
-    filename = "testfile/Test4.jpg"
+    filename = "../../test/test_cluster_utility/testfile/Test4.jpg"
     # out_name_1 = filename[:-4] + "_out.jpg"
     # picU.kmeans_cluster(filename, 5, True, out_name_1)
     i1 = Image.open(filename)
-    i1 = i1.resize((100, 100), PIL.Image.ANTIALIAS)
+    i1 = i1.resize((100, 100), Image.ANTIALIAS)
     filename = filename[:4] + "_reshape.jpg"
     i1.save(filename)
     out_name_2 = filename[:-4] + "_out.jpg"
@@ -60,7 +60,7 @@ def pickle_img_data_sample():
     picU = ClusterUtility
 
     # default filename
-    filename = "testfile/Test2.jpg"
+    filename = "../../test/test_cluster_utility/testfile/Test2.jpg"
 
     # Calculate the color info
     colors_info = picU.kmeans_cluster(filename, 5, False)
@@ -82,7 +82,7 @@ def reshape_data_setup():
     for i in range(a, b):
         filename = "testfile/Test" + str(i) + ".jpg"
         i1 = Image.open(filename)
-        i1 = i1.resize((100, 100), PIL.Image.ANTIALIAS)
+        i1 = i1.resize((100, 100), Image.ANTIALIAS)
         filename = "testfile-out/Test" + str(i) + "_reshape.jpg"
         i1.save(filename)
     print("FINISHED RESHAPE")
