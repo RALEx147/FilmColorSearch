@@ -158,9 +158,9 @@ class TestClusterUtility(TestCase):
         return cluster_time
 
     def test_cluster_time(self):
-        num_of_files = 30
-        num_of_thread = 8
-        # time = self.cluster(num_of_files)
+        num_of_files = 100
+        num_of_thread = 50
+        time = self.cluster(num_of_files)
         # time = self.multiprocess_cluster(num_of_files, num_of_thread)
-        time = self.multithread_cluster(num_of_files, num_of_thread)
+        # time = self.multithread_cluster(num_of_files, num_of_thread)
         print(time)
