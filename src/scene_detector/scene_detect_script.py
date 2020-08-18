@@ -37,6 +37,7 @@ def find_scenes(video_path, generate_images=False):
     stats_file_path = '%s.stats.csv' % video_path
 
     scene_list = []
+    output = []
 
     try:
         if os.path.exists(stats_file_path):
@@ -48,90 +49,92 @@ def find_scenes(video_path, generate_images=False):
         scene_manager.detect_scenes(frame_source=video_manager)
         scene_list = scene_manager.get_scene_list(base_timecode)
 
-        if generate_images:
-            print("Starting to generate images from scenelist")
-            num_images = 2
 
-            if not scene_list:
-                return
+        print("Starting to generate images from scenelist")
+        num_images = 2
 
-            available_extensions = get_cv2_imwrite_params()
-            image_extension = "jpg"
+        if not scene_list:
+            return
 
-
-            imwrite_param = [available_extensions[image_extension], 100]
-
-            video_manager.release()
-            video_manager.reset()
-            video_manager.set_downscale_factor(1)
-            video_manager.start()
-
-            completed = True
-            print('Generating output images (%d per scene)...', num_images)
-
-            filename_template = Template("$VIDEO_NAME-Scene-$SCENE_NUMBER-$IMAGE_NUMBER")
+        available_extensions = get_cv2_imwrite_params()
+        image_extension = "jpg"
 
 
-            scene_num_format = '%0'
-            scene_num_format += str(max(3, math.floor(math.log(len(scene_list), 10)) + 1)) + 'd'
-            image_num_format = '%0'
-            image_num_format += str(math.floor(math.log(num_images, 10)) + 2) + 'd'
+        imwrite_param = [available_extensions[image_extension], 100]
 
-            timecode_list = dict()
+        video_manager.release()
+        video_manager.reset()
+        video_manager.set_downscale_factor(1)
+        video_manager.start()
 
-            fps = scene_list[0][0].framerate
+        completed = True
+        print('Generating output images (%d per scene)...', num_images)
 
-            timecode_list = [
-                [
-                    FrameTimecode(int(f), fps=fps) for f in [
-                        a[len(a)//2] if (0 < j < num_images-1) or num_images == 1
-                        else min(a[0] + 0, a[-1]) if j == 0
-                        else max(a[-1] - 0, a[0])
-                        for j, a in enumerate(np.array_split(r, num_images))
-                    ]
+        filename_template = Template("$VIDEO_NAME-Scene-$SCENE_NUMBER-$IMAGE_NUMBER")
+
+
+        scene_num_format = '%0'
+        scene_num_format += str(max(3, math.floor(math.log(len(scene_list), 10)) + 1)) + 'd'
+        image_num_format = '%0'
+        image_num_format += str(math.floor(math.log(num_images, 10)) + 2) + 'd'
+
+        timecode_list = dict()
+
+        fps = scene_list[0][0].framerate
+
+        timecode_list = [
+            [
+                FrameTimecode(int(f), fps=fps) for f in [
+                    a[len(a)//2] if (0 < j < num_images-1) or num_images == 1
+                    else min(a[0] + 0, a[-1]) if j == 0
+                    else max(a[-1] - 0, a[0])
+                    for j, a in enumerate(np.array_split(r, num_images))
                 ]
-                for i, r in enumerate([
-                        r
-                        if r.stop-r.start >= num_images
-                        else list(r) + [r.stop-1] * (num_images - len(r))
-                        for r in (
-                            range(start.get_frames(), end.get_frames())
-                            for start, end in scene_list
-                        )
-                ])
             ]
+            for i, r in enumerate([
+                    r
+                    if r.stop-r.start >= num_images
+                    else list(r) + [r.stop-1] * (num_images - len(r))
+                    for r in (
+                        range(start.get_frames(), end.get_frames())
+                        for start, end in scene_list
+                    )
+            ])
+        ]
 
-            image_filenames = { i: [] for i in range(len(timecode_list)) }
+        image_filenames = { i: [] for i in range(len(timecode_list)) }
 
-            for i, tl in enumerate(timecode_list):
-                for j, image_timecode in enumerate(tl):
-                    video_manager.seek(image_timecode)
-                    video_manager.grab()
-                    ret_val, frame_im = video_manager.retrieve()
-                    if ret_val:
-                        file_path = '%s.%s' % (filename_template.safe_substitute(
-                            VIDEO_NAME=video_path,
-                            SCENE_NUMBER=scene_num_format % (i + 1),
-                            IMAGE_NUMBER=image_num_format % (j + 1),
-                            FRAME_NUMBER=image_timecode.get_frames()),
-                                               image_extension)
-                        image_filenames[i].append(file_path)
-                        abs_file_path = get_and_create_path(file_path, "output")
+        for i, tl in enumerate(timecode_list):
+            for j, image_timecode in enumerate(tl):
+                video_manager.seek(image_timecode)
+                video_manager.grab()
+                ret_val, frame_im = video_manager.retrieve()
+                if ret_val:
+                    file_path = '%s.%s' % (filename_template.safe_substitute(
+                        VIDEO_NAME=video_path,
+                        SCENE_NUMBER=scene_num_format % (i + 1),
+                        IMAGE_NUMBER=image_num_format % (j + 1),
+                        FRAME_NUMBER=image_timecode.get_frames()),
+                                           image_extension)
+                    image_filenames[i].append(file_path)
+                    abs_file_path = get_and_create_path(file_path, "output")
+                    output.append(frame_im)
+                    if generate_images:
                         print(abs_file_path)
                         cv2.imwrite(abs_file_path, frame_im, imwrite_param)
-                    else:
-                        completed = False
-                        break
+                else:
+                    completed = False
+                    break
 
-            if not completed:
-                print('Could not generate all output images.')
+        if not completed:
+            print('Could not generate all output images.')
 
 
     finally:
         video_manager.release()
 
-    return scene_list
+    return output
 
-if __name__ == '__main__':
-    print(find_scenes("test.mp4", True))
+# if __name__ == '__main__':
+    # print(find_scenes("test.mp4", True))
     # print(find_scenes("test.mp4"))

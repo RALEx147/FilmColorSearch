@@ -9,7 +9,7 @@ from PIL import Image
 #from h2o4gpu.solvers import KMeans # may be a better solution for cluster
 from sklearn.cluster import KMeans
 
-from src.kmean_cluster.stats.color_info import ColorInfo
+from kmean_cluster.stats.color_info import ColorInfo
 
 
 class ClusterUtility:
@@ -30,7 +30,13 @@ class ClusterUtility:
         """
         # load the image and convert it from BGR to RGB so that
         # we can dispaly it with matplotlib
-        image = cv2.imread(img)
+
+        try:
+            image = cv2.imread(img)
+        except:
+            print()
+        finally:
+            image = img
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         # reshape the image to be a list of pixels
