@@ -47,7 +47,7 @@ class ClusterUtility:
         # representing the number of pixels labeled to each color
         hist = ClusterUtility.__centroid_histogram(clt)
         bar, colors_info = ClusterUtility.__plot_colors(hist, clt.cluster_centers_)
-        return colors_info
+        return bar, colors_info
 
     def __centroid_histogram(clt):
         """

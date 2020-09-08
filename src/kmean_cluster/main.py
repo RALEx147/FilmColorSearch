@@ -1,8 +1,8 @@
-from src.kmean_cluster.cluster_utility import ClusterUtility
+from kmean_cluster.cluster_utility import ClusterUtility
 from PIL import Image
 import pickle
-from src.kmean_cluster.stats.key_frame import *
-from src.kmean_cluster.color_match import cal_diff
+from kmean_cluster.stats.key_frame import *
+from kmean_cluster.color_match import cal_diff
 
 
 def test_compare():
